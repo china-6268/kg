@@ -1,4 +1,4 @@
-# es7
+# kg
 背景介绍：<br>
 1.基于 ARM 架构 CPU，国产 Linux 操作系统，为内网做 Elasticsearch 7.12.1 （根据后续生态实际情况，调整为 7.10.2 ） + Springboot 2.5.0 的代码准备 <br>
 2.本文采用 Adoptopenjdk 11.0.11+JVM OpenJ9-0.26.0 作为prod 即生产JDK，把 Oracle 1.8.0_191 HotSpot作为 dev 和 test (以实际情况为准)，即开发和测试环境JDK，生产环境JDK下载地址参见 https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=openj9 <br>
