@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+        <!ELEMENT project (modelVersion|parent|groupId|artifactId|version|packaging|name|description|properties|dependencies|profiles)*>
+        <!ATTLIST project
+                xmlns:xsi CDATA #REQUIRED
+                xmlns CDATA #REQUIRED
+                xsi:schemaLocation CDATA #REQUIRED>
+        <!ELEMENT modelVersion (#PCDATA)>
+        <!ELEMENT parent (groupId|artifactId|version|relativePath)*>
+        <!ELEMENT groupId (#PCDATA)>
+        <!ELEMENT artifactId (#PCDATA)>
+        <!ELEMENT version (#PCDATA)>
+        <!ELEMENT relativePath (#PCDATA)>
+        <!ELEMENT packaging (#PCDATA)>
+        <!ELEMENT name (#PCDATA)>
+        <!ELEMENT description (#PCDATA)>
+        <!ELEMENT properties (project.build.sourceEncoding|project.reporting.outputEncoding|env|java.version)*>
+        <!ELEMENT project.build.sourceEncoding (#PCDATA)>
+        <!ELEMENT project.reporting.outputEncoding (#PCDATA)>
+        <!ELEMENT dependencies (dependency)*>
+        <!ELEMENT dependency (groupId|artifactId|version|exclusions|optional|scope)*>
+        <!ELEMENT exclusions (exclusion)*>
+        <!ELEMENT exclusion (groupId|artifactId)*>
+        <!ELEMENT optional (#PCDATA)>
+        <!ELEMENT scope (#PCDATA)>
+        <!ELEMENT profiles (profile)*>
+        <!ELEMENT profile (id|properties|build)*>
+        <!ELEMENT id (#PCDATA)>
+        <!ELEMENT env (#PCDATA)>
+        <!ELEMENT java.version (#PCDATA)>
+        <!ELEMENT build (plugins)*>
+        <!ELEMENT plugins (plugin)*>
+        <!ELEMENT plugin (groupId|artifactId|configuration|version)*>
+        <!ELEMENT configuration (excludes|source|target|encoding|delimiters|useDefaultDelimiters)*>
+        <!ELEMENT excludes (exclude)*>
+        <!ELEMENT exclude (groupId|artifactId)*>
+        <!ELEMENT source (#PCDATA)>
+        <!ELEMENT target (#PCDATA)>
+        <!ELEMENT encoding (#PCDATA)>
+        <!ELEMENT delimiters (delimiter)*>
+        <!ELEMENT delimiter (#PCDATA)>
+        <!ELEMENT useDefaultDelimiters (#PCDATA)>
+        ]>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <spirng.version>2.5.2</spirng.version>
+        <spring.boot.versions>2.5.2</spring.boot.versions>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
+        <!--        <maven.test.skip>true</maven.test.skip>-->
+        <junit.version>4.13.2</junit.version>
+        <drools.version>7.54.0.Final</drools.version>
+        <jena.version>4.1.0</jena.version>
+        <elasticsearch.version>7.10.2</elasticsearch.version>
+        <shiro.core>1.7.1</shiro.core>
+        <alibaba.fastjson>1.2.76</alibaba.fastjson>
+        <apache.tika>1.26</apache.tika>
+        <lombok.version>1.18.20</lombok.version>
+        <commons.cli>1.4</commons.cli>
+        <spring.data.elasticsearch>4.2.1</spring.data.elasticsearch>
+        <jna.version>5.7.0</jna.version>
+        <maven.site.plugin>2.6.2</maven.site.plugin>
+        <hanlp.restful>0.0.4</hanlp.restful>
+        <hankcs.hanlp>portable-1.8.1</hankcs.hanlp>
+        <commons.codec>1.15</commons.codec>
+        <xkcoding.simple.http>1.0.3</xkcoding.simple.http>
+        <janusgraph.core>0.5.3</janusgraph.core>
+        <apache.httpclient>4.5.13</apache.httpclient>
+        <kafka.version>2.8.0</kafka.version>
+        <apache.maven.site.plugin>3.9.1</apache.maven.site.plugin>
+        <neo4j.java.driver>4.3.2</neo4j.java.driver>
+        <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
+    </properties>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.hzwtech</groupId>
+    <artifactId>cqwjs</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>examples</name>
+    <description>examples project for Spring Boot</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring.boot.versions}</version>
+            <exclusions>
+                <!--排除logback-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring.boot.versions}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <!--排除logback-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>${spring.boot.versions}</version>
+        </dependency>
+        <!--		New in Spring Data Elasticsearch 4.2-->
+        <!--		Upgrade to Elasticsearch 7.10.0.-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+            <version>${spring.data.elasticsearch}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.boot.versions}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <!--排除logback-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <!--排除logback-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>${apache.tika}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client-sniffer</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers</artifactId>
+            <version>${apache.tika}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring.boot.versions}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.plugin</groupId>
+            <artifactId>rank-eval-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.plugin</groupId>
+            <artifactId>lang-mustache-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.plugin</groupId>
+            <artifactId>percolator-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.plugin</groupId>
+            <artifactId>parent-join-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-secure-sm</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-x-content</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-cli</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>jna</artifactId>
+            <version>${jna.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.plugin</groupId>
+            <artifactId>transport-netty4-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.plugin</groupId>
+            <artifactId>reindex-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>${apache.maven.site.plugin}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hankcs.hanlp.restful</groupId>
+            <artifactId>hanlp-restful</artifactId>
+            <version>${hanlp.restful}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>hanlp</artifactId>
+            <version>${hankcs.hanlp}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${alibaba.fastjson}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.codec}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-querybuilder</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>${commons.cli}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>apache-jena-libs</artifactId>
+            <version>${jena.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-text</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${apache.httpclient}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xkcoding.http</groupId>
+            <artifactId>simple-http</artifactId>
+            <version>${xkcoding.simple.http}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-bom</artifactId>
+            <type>pom</type>
+            <version>${drools.version}</version>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.janusgraph</groupId>
+            <artifactId>janusgraph-core</artifactId>
+            <version>${janusgraph.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+            <version>${neo4j.java.driver}</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-bom</artifactId>
+                <type>pom</type>
+                <version>${drools.version}</version>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <!--开发环境-->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+                <env>dev</env>
+<!--                <java.version>1.8</java.version>-->
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kie</groupId>
+                        <artifactId>kie-maven-plugin</artifactId>
+                        <version>${drools.version}</version>
+                        <extensions>true</extensions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spirng.version}</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${maven.compiler.plugin}</version>
+                    </plugin>
+                </plugins>
+                <!--                <resources>-->
+                <!--                    <resource>-->
+                <!--                        <directory>src/main/resources</directory>-->
+                <!--                        <filtering>true</filtering>-->
+                <!--                    </resource>-->
+                <!--                </resources>-->
+            </build>
+        </profile>
+        <!--测试环境-->
+        <profile>
+            <id>test</id>
+            <properties>
+                <spring.profiles.active>test</spring.profiles.active>
+                <env>test</env>
+<!--                <java.version>1.8</java.version>-->
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kie</groupId>
+                        <artifactId>kie-maven-plugin</artifactId>
+                        <version>${drools.version}</version>
+                        <extensions>true</extensions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spirng.version}</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${maven.compiler.plugin}</version>
+                    </plugin>
+                </plugins>
+                <!--                <resources>-->
+                <!--                    <resource>-->
+                <!--                        <directory>src/main/resources</directory>-->
+                <!--                        <filtering>true</filtering>-->
+                <!--                    </resource>-->
+                <!--                </resources>-->
+            </build>
+        </profile>
+        <!--生产环境-->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+                <env>prod</env>
+<!--                <java.version>11</java.version>-->
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kie</groupId>
+                        <artifactId>kie-maven-plugin</artifactId>
+                        <version>${drools.version}</version>
+                        <extensions>true</extensions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spirng.version}</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${maven.compiler.plugin}</version>
+                        <configuration>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </plugin>
+                    <!--                    <plugin>-->
+                    <!--                        <artifactId/>-->
+                    <!--                        <configuration>-->
+                    <!--                        <delimiters>-->
+                    <!--                            <delimiter>@</delimiter>-->
+                    <!--                        </delimiters>-->
+                    <!--                        <useDefaultDelimiters>false</useDefaultDelimiters>-->
+                    <!--                    </configuration>-->
+                    <!--                </plugin>-->
+                </plugins>
+                <!--<resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>-->
+            </build>
+        </profile>
+    </profiles>
+</project>
